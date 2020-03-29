@@ -1,7 +1,4 @@
-import {
-  createShift,
-}
-  from '../index.js';
+import { createShift } from '..';
 
 describe('createShift function', () => {
   test('it should return a valid shift object', () => {
@@ -9,7 +6,11 @@ describe('createShift function', () => {
     const startTime = '18:00';
     const endTime = '23:15';
 
-    const output = { shiftStart: '2020-02-01 18:00:00', shiftEnd: '2020-02-01 23:15:00', shiftDuration: { hours: 5, minutes: 15 } };
+    const output = {
+      shiftStart: '2020-02-01 18:00:00',
+      shiftEnd: '2020-02-01 23:15:00',
+      shiftDuration: { hours: 5, minutes: 15 },
+    };
 
     expect(createShift({ startDate, startTime, endTime })).toEqual(output);
   });
