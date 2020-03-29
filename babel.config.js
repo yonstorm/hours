@@ -14,7 +14,7 @@ module.exports = function babelConfig(api) {
           modules: false,
           targets: {
             browsers: ['> 2%'],
-            node: '10'
+            node: '10',
           },
         },
       ],
@@ -29,7 +29,7 @@ module.exports = function babelConfig(api) {
             {
               targets: {
                 browsers: ['> 2%'],
-                node: '10'
+                node: '10',
               },
             },
           ],

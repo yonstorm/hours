@@ -9,9 +9,9 @@ module.exports = {
     },
   },
   globals: {
-      'jest': {
-          extends: '.babel.config.js'
-      }
+    jest: {
+      extends: '.babel.config.js',
+    },
   },
   moduleFileExtensions: ['js'],
   roots: [
