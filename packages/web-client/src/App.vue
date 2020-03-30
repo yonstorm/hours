@@ -11,7 +11,6 @@
       <router-view class="main" />
     </keep-alive>
     <footer>footer here</footer>
-    >>>>>>> refactor/classifiers
   </div>
 </template>
 
