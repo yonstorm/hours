@@ -9,7 +9,7 @@ describe('extractWorkedHours function', () => {
       endTime: '23:00',
     });
 
-    const output = [18, 19, 20, 21, 22];
+    const output = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, 1, 1, 1, 1, 0];
 
     expect(extractWorkedHours(input)).toEqual(output);
   });
@@ -21,8 +21,11 @@ describe('extractWorkedHours function', () => {
       endTime: '01:00',
     });
 
-    const output = [18, 19, 20, 21, 22, 23, 0];
+    const output = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, 1, 1, 1, 1, 1];
 
-    expect(extractWorkedHours(input)).toEqual(output);
+
+    const vals = extractWorkedHours(input);
+
+    expect(vals).toEqual(output);
   });
 });

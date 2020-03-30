@@ -122,7 +122,7 @@ export const classifyDailyWorkHours = (dailyShifts) => {
   const overtimeHours = [];
   let workedHours = 0;
   let currentHour = dayStartHour;
-  for (let i = 0; i <= activeWorkingHours.length; i += 1) {
+  for (let i = 0; i <= activeWorkingHours.length - 1; i += 1) {
     if (currentHour > 23) {
       currentHour = 0;
     }

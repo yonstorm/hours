@@ -6,7 +6,6 @@ describe('ClassifyDailyWorkHours function', () => {
       createShift({
         startDate: '1.2.2020',
         startTime: '00:00',
-        endDate: '1.2.2020',
         endTime: '10:00',
       }),
     ];
