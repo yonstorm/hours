@@ -11,13 +11,16 @@ export const extractWorkedHours = ({ shiftStart, shiftDuration }) => {
   let currentHour = startHour;
   const result = [];
   for (let i = 0; i < totalHoursWorked; i += 1) {
-    if (currentHour > 23) {
-      currentHour = 0;
+    if (currentHour === 24) {
+      currentHour = 0.0;
     }
     result.push(currentHour);
 
-    currentHour += 1;
+    currentHour += 1.0;
   }
+  const { minutes } = shiftDuration;
+  const percentOfHour = minutes === 0 ? 0 : minutes / 60;
+  result[result.length - 1] += percentOfHour;
   return result;
 };
 
@@ -27,8 +30,8 @@ export const extractWorkedHours = ({ shiftStart, shiftDuration }) => {
  * @returns {number} Total work hours
  */
 /* eslint-disable no-param-reassign */
-export const calculateTotalWorkHours = (shifts) =>
-  shifts.reduce(
+export const calculateTotalWorkHours = (shifts) => {
+  const totals = shifts.reduce(
     (total, { shiftDuration }) => {
       const { hours, minutes } = shiftDuration;
 
@@ -38,6 +41,14 @@ export const calculateTotalWorkHours = (shifts) =>
     },
     { hours: 0, minutes: 0 },
   );
+  const leftOverMinutes = totals.minutes % 60;
+  const fullHoursFromMinutes = Math.floor(totals.minutes / 60);
+
+  return {
+    hours: totals.hours + fullHoursFromMinutes,
+    minutes: leftOverMinutes,
+  };
+};
 /* eslint-enable no-param-reassign */
 
 /**
@@ -74,6 +85,15 @@ const getTimeDifference = (startTime, endTime) => {
   };
 };
 
+const getRemainderFromLastElement = (values) => {
+  const lastValue = values[values.length - 1];
+  if (!lastValue) {
+    return 0.0;
+  }
+
+  return (lastValue % 1).toFixed(3);
+};
+
 /**
  * Classifies daily working hours by rules
  * @param {Object[]} dailyShifts - Total worked hours - classified as normal, evening and overtime
@@ -88,20 +108,26 @@ export const classifyDailyWorkHours = (dailyShifts) => {
     const shiftHours = extractWorkedHours(shift);
     return [...acc, ...shiftHours];
   }, []);
+  console.log(activeWorkingHours);
+  const remainder = getRemainderFromLastElement(activeWorkingHours);
+  console.log(remainder);
 
   const overtimeHours = activeWorkingHours.splice(8, activeWorkingHours.length);
 
   const eveningHours = activeWorkingHours.filter(
-    (hour) => hour >= 18 || hour < 6,
+    (hour) => hour >= 17 || hour <= 5,
   );
   const normalHours = activeWorkingHours.filter(
-    (hour) => hour >= 6 && hour < 18,
+    (hour) => hour >= 6 && hour <= 17,
   );
-  return {
+
+  const hours = {
     normal: normalHours.length,
     evening: eveningHours.length,
     overtime: overtimeHours.length,
   };
+  console.log(`hours: ${JSON.stringify(hours)}`);
+  return hours;
 };
 
 /**
@@ -116,6 +142,7 @@ export const classifyShifts = (shifts) => {
     (total, shift) => {
       const dailyHours = classifyDailyWorkHours(shift);
 
+      console.log(dailyHours);
       total.normal += dailyHours.normal;
       total.evening += dailyHours.evening;
       total.overtime += dailyHours.overtime;
