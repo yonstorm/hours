@@ -6,3 +6,6 @@ export { extractShiftsByDay } from './shifts';
 export { createShift } from './shifts';
 export { classifyShifts } from './shifts';
 export { classifyDailyWorkHours } from './shifts';
+export { calculateDailyWage } from './wages';
+
+export { calculateTotalWage } from './wages';
